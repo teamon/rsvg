@@ -1,0 +1,6 @@
+*
+!/c_src
+!/lib
+!/Makefile
+!/test
+!/mix.*

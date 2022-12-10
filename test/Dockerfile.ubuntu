@@ -1,0 +1,19 @@
+ARG ELIXIR="1.14.2"
+ARG ERLANG="25.1.2"
+ARG UBUNTU="jammy-20220428"
+
+FROM "hexpm/elixir:${ELIXIR}-erlang-${ERLANG}-ubuntu-${UBUNTU}"
+
+RUN apt-get update
+RUN apt-get install -y build-essential librsvg2-dev
+
+RUN mix local.hex --force && \
+    mix local.rebar --force
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY . .
+
+RUN mix deps.get --only test
+RUN make && mix test

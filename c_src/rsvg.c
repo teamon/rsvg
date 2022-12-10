@@ -9,10 +9,10 @@ typedef struct {
   unsigned char *buf;
   unsigned int cap;
   unsigned int size;
-} write_func_closure;
+} closure_t;
 
 static cairo_status_t write_func(void *closure, const unsigned char *data, unsigned int size){
-  write_func_closure * c = (write_func_closure *)(closure);
+  closure_t * c = (closure_t *)(closure);
 
   if(c->size + size > c->cap){
     c->cap += BUF_SIZE;
@@ -38,7 +38,6 @@ static ERL_NIF_TERM render_png(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
   RsvgHandle* handle = rsvg_handle_new_from_data(svg.data, svg.size, &error);
   if(!handle){
     g_printerr ("could not load: %s", error->message);
-    // todo
     exit (1);
   }
 
@@ -54,11 +53,10 @@ static ERL_NIF_TERM render_png(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 
   if (!rsvg_handle_render_document(handle, cr, &viewport, &error)){
     g_printerr ("could not render: %s", error->message);
-    // todo
     exit (1);
   }
 
-  write_func_closure closure;
+  closure_t closure;
   closure.size = 0;
   closure.cap = BUF_SIZE;
   closure.buf = (unsigned char *)malloc(sizeof(unsigned char) * closure.cap);
@@ -66,7 +64,6 @@ static ERL_NIF_TERM render_png(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
   cairo_status_t status = cairo_surface_write_to_png_stream(surface, write_func, &closure);
   if(status != CAIRO_STATUS_SUCCESS){
     g_printerr ("could not write to png: %s", cairo_status_to_string(status));
-    // todo
     exit (1);
   }
 
@@ -74,6 +71,7 @@ static ERL_NIF_TERM render_png(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
   unsigned char * buf = enif_make_new_binary(env, closure.size, &result);
   memcpy(buf, closure.buf, closure.size);
 
+  free(closure.buf);
   cairo_destroy(cr);
   cairo_surface_destroy(surface);
   g_object_unref(handle);
