@@ -24,3 +24,7 @@ rsvg-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Binaries
+/priv/*.so
+/priv/*.so.dSYM

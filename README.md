@@ -1,6 +1,20 @@
 # RSVG
 
-**TODO: Add description**
+Elixir library to render SVG into PNG using
+[librsvg](https://gitlab.gnome.org/GNOME/librsvg).
+
+## Usage
+
+```ex
+# Get some SVG (read from file, generate in memory, etc.)
+svg = File.read!("example.svg")
+
+# Render into PNG
+png = RSVG.render(svg, :png)
+
+# Write to file (or serve via phoenix/plug)
+File.write!("example.png", png)
+```
 
 ## Installation
 
@@ -15,7 +29,7 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/rsvg>.
-
+Documentation can be generated with
+[ExDoc](https://github.com/elixir-lang/ex_doc) and published on
+[HexDocs](https://hexdocs.pm). Once published, the docs can be found at
+<https://hexdocs.pm/rsvg>.
