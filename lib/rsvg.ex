@@ -1,7 +1,9 @@
 defmodule RSVG do
-  @on_load :load_nifs
+  @on_load {:load_nifs, 0}
 
-  def load_nifs, do: :erlang.load_nif(:code.priv_dir(:rsvg) ++ '/rsvg', 0)
+  app = Mix.Project.config[:app]
+
+  def load_nifs, do: :erlang.load_nif(:filename.join(:code.priv_dir(unquote(app)), 'rsvg'), 0)
 
   @spec render(svg :: binary, format :: :png) :: binary
   def render(svg, :png) do
