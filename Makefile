@@ -7,13 +7,13 @@ endif
 
 LDFLAGS += $(shell pkg-config --cflags --libs librsvg-2.0)
 
-all: priv/rsvg.so
+all: $(MIX_APP_PATH)/priv/rsvg.so
 
-priv/rsvg.so: c_src/rsvg.c
-	mkdir -p ./priv
+$(MIX_APP_PATH)/priv/rsvg.so: c_src/rsvg.c
+	mkdir -p $(MIX_APP_PATH)/priv
 	$(CC) $(CFLAGS) -shared $(LDFLAGS) -o $@ c_src/rsvg.c
 
 clean:
-	rm -r priv/rsvg.so*
+	rm -r $(MIX_APP_PATH)/priv/rsvg.so*
 
 .PHONY: clean

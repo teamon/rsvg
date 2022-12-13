@@ -1,7 +1,7 @@
 defmodule RSVG do
   @on_load :load_nifs
 
-  def load_nifs, do: :erlang.load_nif(:code.priv_dir(:rsvg) ++ '/rsvg', 0)
+  def load_nifs, do: :erlang.load_nif(:filename.join(:code.priv_dir('rsvg'), 'rsvg'), 0)
 
   @spec render(svg :: binary, format :: :png) :: binary
   def render(svg, :png) do
