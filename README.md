@@ -1,5 +1,7 @@
 # RSVG
 
+> ⚠️ **WARNING**: This is an experimental proof of concept. Read the code, use at your own risk ⚠️
+
 Elixir library to render SVG into PNG using
 [librsvg](https://gitlab.gnome.org/GNOME/librsvg).
 
