@@ -16,4 +16,4 @@ WORKDIR /app
 COPY . .
 
 RUN mix deps.get --only test
-RUN make && mix test
+RUN mix test
